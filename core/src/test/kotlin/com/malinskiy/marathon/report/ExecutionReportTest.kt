@@ -15,13 +15,13 @@ import com.malinskiy.marathon.execution.TestParser
 import com.malinskiy.marathon.execution.TestResult
 import com.malinskiy.marathon.execution.TestStatus
 import com.malinskiy.marathon.log.MarathonLogConfigurator
+import com.malinskiy.marathon.report.ReportTestUtils.createTestEvent
 import com.malinskiy.marathon.vendor.VendorConfiguration
 import org.amshove.kluent.shouldBe
 import org.junit.jupiter.api.Test
 import java.io.File
 import java.time.Instant
 import com.malinskiy.marathon.test.Test as MarathonTest
-
 
 class ExecutionReportTest {
     val configuration = Configuration(
@@ -97,29 +97,13 @@ class ExecutionReportTest {
                 DeviceConnectedEvent(Instant.now(), DevicePoolId("myPool"), device)
             ),
             testEvents = listOf(
-                createTestEvent(device, "test2", TestStatus.FAILURE, false),
-                createTestEvent(device, "test2", TestStatus.FAILURE, false),
-                createTestEvent(device, "test2", TestStatus.PASSED, true),
-                createTestEvent(device, "test3", TestStatus.FAILURE, false),
-                createTestEvent(device, "test3", TestStatus.FAILURE, false),
-                createTestEvent(device, "test3", TestStatus.FAILURE, true)
+                createTestEvent(device, "test2", TestStatus.FAILURE, null,false),
+                createTestEvent(device, "test2", TestStatus.FAILURE, null,false),
+                createTestEvent(device, "test2", TestStatus.PASSED, null,true),
+                createTestEvent(device, "test3", TestStatus.FAILURE, null,false),
+                createTestEvent(device, "test3", TestStatus.FAILURE, null,false),
+                createTestEvent(device, "test3", TestStatus.FAILURE, null,true)
             )
-        )
-    }
-
-    private fun createTestEvent(deviceInfo: DeviceInfo, methodName: String, status: TestStatus, final: Boolean = true): TestEvent {
-        return TestEvent(
-            Instant.now(),
-            DevicePoolId("myPool"),
-            deviceInfo,
-            TestResult(
-                MarathonTest("com", "example", methodName, emptyList()),
-                deviceInfo,
-                status,
-                0,
-                100
-            ),
-            final
         )
     }
 

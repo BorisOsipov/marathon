@@ -9,7 +9,7 @@ import com.malinskiy.marathon.execution.TestResult
 import com.malinskiy.marathon.execution.TestStatus
 import com.malinskiy.marathon.report.Reporter
 import com.malinskiy.marathon.test.Test
-import com.malinskiy.marathon.test.toSimpleSafeTestName
+import com.malinskiy.marathon.test.toSafeTestName
 import io.qameta.allure.AllureLifecycle
 import io.qameta.allure.Description
 import io.qameta.allure.Epic
@@ -52,9 +52,9 @@ class AllureReporter(val configuration: Configuration, private val outputDirecto
         )
     }
 
-    private fun createTestResult(uuid: String, device: DeviceInfo, testResult: TestResult): io.qameta.allure.model.TestResult {
+    internal fun createTestResult(uuid: String, device: DeviceInfo, testResult: TestResult): io.qameta.allure.model.TestResult {
         val test = testResult.test
-        val fullName = test.toSimpleSafeTestName()
+        val fullName = test.toSafeTestName()
         val suite = "${test.pkg}.${test.clazz}"
 
         val status: Status = when (testResult.status) {
